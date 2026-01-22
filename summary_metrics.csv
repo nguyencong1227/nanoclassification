@@ -1,0 +1,24 @@
+model_name,precision,recall,f1-score,accurancy
+KNeighborsClassifier,0.967,0.95,0.947,0.95
+SVC,0.867,0.8,0.813,0.8
+RandomForestClassifier,0.657,0.7,0.654,0.7
+DecisionTreeClassifier,0.507,0.5,0.47,0.5
+DecisionTree (AE_5),0.068,0.2,0.097,0.2
+SVM (AE_5),0.065,0.2,0.097,0.2
+RandomForest (Slice34_first5),0.092,0.2,0.112,0.2
+LogisticRegression (PCA_5),0.068,0.2,0.097,0.2
+PCA/RandomForestClassifier (PCA),0.07,0.15,0.083,0.15
+PCA/KNeighborsClassifier (PCA),0.133,0.15,0.14,0.15
+PCA/SVC (PCA),0.108,0.15,0.123,0.15
+NaiveBayes (AE_5),0.064,0.15,0.075,0.15
+AutoEncoder/KNeighborsClassifier (AutoEncoder),0.01,0.1,0.018,0.1
+AutoEncoder/BernoulliNB (AutoEncoder),0.01,0.1,0.018,0.1
+AutoEncoder/DecisionTreeClassifier (AutoEncoder),0.011,0.1,0.02,0.1
+BernoulliNB,0.01,0.1,0.018,0.1
+AutoEncoder/SVC (AutoEncoder),0.01,0.1,0.018,0.1
+AutoEncoder/RandomForestClassifier (AutoEncoder),0.01,0.1,0.018,0.1
+AutoEncoder/LogisticRegression (AutoEncoder),0.011,0.1,0.02,0.1
+PCA/DecisionTreeClassifier (PCA),0.02,0.1,0.033,0.1
+PCA/BernoulliNB (PCA),0.02,0.1,0.033,0.1
+KNN (PCA_5),0.15,0.1,0.117,0.1
+PCA/LogisticRegression (PCA),0.05,0.05,0.05,0.05
