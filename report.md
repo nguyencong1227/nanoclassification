@@ -78,22 +78,31 @@ Kết quả đánh giá chi tiết được lưu trong file `evaluation_results_
 3.  **Mô hình tốt nhất**:
     - **Voting Classifier** và **Logistic Regression** là những lựa chọn tốt nhất, luôn duy trì độ chính xác cao và ổn định trên cả 3 nhóm chất.
 
-## 7. Các Mô Hình Đạt Độ Chính Xác Tuyệt Đối (100%)
+## 7. Các Thang Đánh Giá (Evaluation Metrics)
 
-Dưới đây là danh sách các mô hình đã phân loại chính xác hoàn toàn trên tập kiểm tra. Tất cả các chỉ số (Accuracy, Precision, Recall, F1-Score) đều đạt **1.0**.
+Để đánh giá hiệu suất của các mô hình, chúng tôi sử dụng các chỉ số sau:
 
-| Nhóm | Feature Set | Model | Accuracy | Precision | Recall | F1-Score |
-| :--- | :--- | :--- | :---: | :---: | :---: | :---: |
-| **PPs/OPs** | Original | Logistic Regression, SVM, KNN, VotingClassifier_Full | 1.0 | 1.0 | 1.0 | 1.0 |
-| | PCA | Logistic Regression, SVM, Random Forest, Naive Bayes, VotingClassifier_Full | 1.0 | 1.0 | 1.0 | 1.0 |
-| | AutoEncoder | VotingClassifier_Full | 1.0 | 1.0 | 1.0 | 1.0 |
-| **BTEX** | Original | Logistic Regression, KNN, Random Forest, Decision Tree, VotingClassifier_Full | 1.0 | 1.0 | 1.0 | 1.0 |
-| | PCA | Logistic Regression, KNN, Random Forest, VotingClassifier_Full | 1.0 | 1.0 | 1.0 | 1.0 |
-| **ODs/ICs** | Original | Logistic Regression, KNN, Random Forest, VotingClassifier_Full, AdaBoostClassifier | 1.0 | 1.0 | 1.0 | 1.0 |
-| | PCA | Logistic Regression, KNN, Random Forest, Decision Tree, Naive Bayes, VotingClassifier_Full, AdaBoostClassifier | 1.0 | 1.0 | 1.0 | 1.0 |
-| | AutoEncoder | Logistic Regression, KNN, Decision Tree, VotingClassifier_Full | 1.0 | 1.0 | 1.0 | 1.0 |
+- **Accuracy (Độ chính xác)**: Tỷ lệ số mẫu được phân loại đúng trên tổng số mẫu.
+- **Precision (Độ chính xác của dự báo dương)**: Tỷ lệ các mẫu "True Positive" trên tổng số các mẫu được mô hình dự đoán là Positive. Chỉ số này cho biết độ tin cậy của các dự đoán Positive.
+- **Recall (Độ nhạy)**: Tỷ lệ các mẫu "True Positive" trên tổng số các mẫu thực sự là Positive. Chỉ số này cho biết khả năng phát hiện các mẫu Positive của mô hình.
+- **F1-Score**: Trung bình điều hòa (harmonic mean) của Precision và Recall. Đây là chỉ số tổng hợp quan trọng khi cần cân bằng giữa Precision và Recall.
 
-## 8. Đường Dẫn Kết Quả Chi Tiết
+## 8. Các Mô Hình Đạt Độ Chính Xác Tuyệt Đối (100%)
+
+Dưới đây là danh sách các mô hình đã phân loại chính xác hoàn toàn trên tập kiểm tra. Điều này có nghĩa là **Accuracy, Precision, Recall và F1-Score đều đạt giá trị tối đa là 1.0**.
+
+| Nhóm | Feature Set | Model |
+| :--- | :--- | :--- |
+| **PPs/OPs** | Original | Logistic Regression, SVM, KNN, VotingClassifier_Full |
+| | PCA | Logistic Regression, SVM, Random Forest, Naive Bayes, VotingClassifier_Full |
+| | AutoEncoder | VotingClassifier_Full |
+| **BTEX** | Original | Logistic Regression, KNN, Random Forest, Decision Tree, VotingClassifier_Full |
+| | PCA | Logistic Regression, KNN, Random Forest, VotingClassifier_Full |
+| **ODs/ICs** | Original | Logistic Regression, KNN, Random Forest, VotingClassifier_Full, AdaBoostClassifier |
+| | PCA | Logistic Regression, KNN, Random Forest, Decision Tree, Naive Bayes, VotingClassifier_Full, AdaBoostClassifier |
+| | AutoEncoder | Logistic Regression, KNN, Decision Tree, VotingClassifier_Full |
+
+## 9. Đường Dẫn Kết Quả Chi Tiết
 
 Bạn có thể xem chi tiết kết quả và các biểu đồ confusion matrix tại các đường dẫn sau:
 
