@@ -28,6 +28,12 @@ import os
 import seaborn as sn
 
 labels = ["4-nitrophenol", "Benzene", "Carbaryl", "Chloramphenicol", "Congo Red", "Crystal Violet", "E-Benzene", "Glyphosate", "Methylene Blue", "Styrene", "Thiram", "Toluen", "Tricyclazole", "Urea", "Xylene"]
+
+# Define Groups
+GROUP_1 = ["Carbaryl", "4-nitrophenol", "Chloramphenicol", "Tricyclazole", "Glyphosate"]
+GROUP_2 = ["Benzene", "Toluen", "E-Benzene", "Xylene", "Styrene"]
+GROUP_3 = ["Congo Red", "Crystal Violet", "Methylene Blue", "Urea", "Thiram"]
+
 paths = [os.path.join("Data for Nano-AI", label) for label in labels]
 
 file_names = ['1.txt', '2.txt', '3.txt', '4.txt', '5.txt']
@@ -52,43 +58,78 @@ def plot_data(paths, labels, file_names, nrows, ncols, figsize):
     plt.tight_layout()  
     plt.show()
 
-def make_data(paths_data = paths, num_features=None):
-    """Number of features = 34 to train
-                            10 to visualize"""
+# Indices for 34 features
+FIXED_INDICES_34 = [
+    1885, 1856, 1463, 1422, 1888, 1860, 1473, 1356, 1506, 1410, 1266, 921,
+    1782, 1513, 1393, 1270, 1438, 1641, 1503, 1872, 1713, 1666, 1576,
+    1876, 1849, 1382, 1255, 1878, 1820, 1520, 1395, 1608, 1428, 1596
+]
+
+# Randomly select 6 additional indices (fixed seed for consistency within a run, or not?)
+# User asked for random. Let's pick them once per run so all classes use same features in one call.
+np.random.seed(42)
+all_indices = np.arange(2048) # Assuming max 2048 based on file check
+available_indices = np.setdiff1d(all_indices, FIXED_INDICES_34)
+RANDOM_6_INDICES = np.random.choice(available_indices, 6, replace=False).tolist()
+
+def make_data(paths_data = paths, num_features=None, specific_labels=None):
+    """
+    num_features = 34: Use fixed 34 indices
+    num_features = 40: Use fixed 34 + 6 random indices
+    num_features = 10: Use fixed 10 indices (visualization)
+    """
     X = np.empty((0, num_features))
-    labels = np.empty((0, 1))
+    labels_arr = np.empty((0, 1))
+    
+    current_indices = []
+    if num_features == 34:
+        current_indices = FIXED_INDICES_34
+    elif num_features == 40:
+        current_indices = FIXED_INDICES_34 + RANDOM_6_INDICES
+    elif num_features == 10:
+        current_indices = [1885, 1391, 1670, 1407, 1421, 1577, 1878, 1512, 1892, 1596]
+    
+    # print(f"Extracting {len(current_indices)} features...")
+
+    # print(f"Extracting {len(current_indices)} features...")
+
     for i in range(0, len(paths_data)):
+        # Check if we should skip this label (filter by group)
+        current_label_name = labels[i]
+        if specific_labels is not None and current_label_name not in specific_labels:
+            continue
+
         folder_path = paths_data[i]
         for j in range(0, 5):
             file_path = os.path.join(folder_path, f"{file_names[j]}")
             data = pd.read_csv(file_path, sep="\t")
-
-            if num_features == 34: 
-                x = data.iloc[[1885, 1856, 1463, 1422,
-                            1888, 1860, 1473, 1356,
-                            1506, 1410, 1266, 921,
-                            1782, 1513, 1393, 1270,
-                                  1438, 1641, 1503,
-                            1872, 1713, 1666, 1576,
-                            1876, 1849, 1382, 1255,
-                            1878, 1820, 1520, 1395,
-                                  1608, 1428, 
-                            1596], 1].values   
-            elif num_features == 10:
-                x = data.iloc[[1885, 1391, 1670, 1407, 1421, 1577, 1878, 1512, 1892, 1596], 1].values 
+            
+            if len(current_indices) > 0:
+                # Ensure indices are within bounds
+                valid_indices = [idx for idx in current_indices if idx < len(data)]
+                x = data.iloc[valid_indices, 1].values
             else:
                 x = data.iloc[:, 1].values
+                
             label = np.full((1, 1), i)
 
             X = np.concatenate((X, [x]), axis=0) 
-            labels = np.concatenate((labels, label), axis=0) 
+            
+            # If specific_labels is used, we might want to remap label index to 0..len(group)-1
+            # But kept simple: use index in the specific_labels list if provided, else use global index 'i'
+            if specific_labels is not None:
+                # Find index in the specific_labels list
+                label_idx = specific_labels.index(current_label_name)
+                label = np.full((1, 1), label_idx)
+            
+            labels_arr = np.concatenate((labels_arr, label), axis=0) 
 
     indices = np.arange(X.shape[0])
     np.random.shuffle(indices)
     X = X[indices]
-    labels = labels[indices]
+    labels_arr = labels_arr[indices]
 
-    return X, labels
+    return X, labels_arr
 
 def Norm(X, option = 'min_max'):
     if option == "min_max":
@@ -123,7 +164,7 @@ def visualize(X, y, option="3d", eval= 0, azim = 0, legend = True):
     
     plt.show()
 
-def model_predict(X_test, y_test, name, path = None, print_eval = True):
+def model_predict(X_test, y_test, name, path = None, print_eval = True, plot_name=None, specific_labels=None):
     print("Testing with " + type(name).__name__)
     """ If path = None, the model will make predictions on the test set
     , otherwise it will make a prediction on a single sample """
@@ -149,9 +190,14 @@ def model_predict(X_test, y_test, name, path = None, print_eval = True):
     proba = model.predict_proba(x)
     probs = [np.round(p, 2) for p in proba]
     
-    result = {"Predict": predict, "Class" : [labels[int(p)] for p in predict], "Probability": probs}
+    if specific_labels is None:
+        use_labels = labels
+    else:
+        use_labels = specific_labels
+
+    result = {"Predict": predict, "Class" : [use_labels[int(p)] for p in predict], "Probability": probs}
     if path == None and print_eval == True:
-        evaluate_model(name, X_test, y_test, labels)
+        evaluate_model(name, X_test, y_test, use_labels, plot_name=plot_name)
     return result
 
 def calculate_time(model, X, y):
@@ -218,7 +264,7 @@ def Grid_search_model(X,y, cv = 2):
             best_models[name] = clf.best_estimator_
     return best_models
 
-def evaluate_model(model, X_test, y_test, labels):
+def evaluate_model(model, X_test, y_test, labels, plot_name=None):
     y_pred = model.predict(X_test)
     
     np.seterr(divide='ignore', invalid='ignore') 
@@ -243,7 +289,10 @@ def evaluate_model(model, X_test, y_test, labels):
     if not os.path.exists(plot_dir):
         os.makedirs(plot_dir)
         
-    plt.savefig(f"{plot_dir}/{type(model).__name__}.png")
+    if plot_name:
+        plt.savefig(f"{plot_dir}/{plot_name}.png")
+    else:
+        plt.savefig(f"{plot_dir}/{type(model).__name__}.png")
     
     print("Accuracy: {:.4f}".format(acc))
     print("Precision: {:.4f}".format(precision))
