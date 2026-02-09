@@ -13,7 +13,6 @@ from extract_feature_AE import *
 
 np.random.seed(42)
 
-# ---------- load model ----------
 def load_pkl(path: Path):
     try:
         import joblib
@@ -27,7 +26,6 @@ def infer_n_features(model):
         return int(model.n_features_in_)
     raise ValueError("Model không có n_features_in_. Hãy bọc pipeline khi save để khỏi mất thông tin.")
 
-# ---------- build baseline 34 features (GIỐNG NOTEBOOK) ----------
 X, y = make_data(paths, 34)
 X = Norm(X)
 
@@ -36,9 +34,8 @@ X_train, X_test, y_train, y_test = train_test_split(
 )
 y_true = np.array(y_test).ravel()
 
-X_mean = np.mean(X)  # giống notebook dùng mean của X
+X_mean = np.mean(X)
 
-# ---------- feature cache ----------
 _pca_cache = {}
 _ae_cache = {}
 
@@ -85,14 +82,12 @@ def try_predict(model, X_eval):
             y_proba = None
     return y_pred, y_proba
 
-# Ensure plots directory exists
 os.makedirs("plots/confusion_matrix", exist_ok=True)
 
 def evaluate_model(model_path: Path):
     model = load_pkl(model_path)
     k = infer_n_features(model)
 
-    # rule theo folder
     folder_parts = set(model_path.parts)
     candidates = []
 
@@ -103,11 +98,9 @@ def evaluate_model(model_path: Path):
         _, Xte = get_ae(k)
         candidates = [("AutoEncoder", Xte)]
     else:
-        # baseline đúng nghĩa nếu k=34
         if k == X_test.shape[1]:
             candidates = [("Baseline34", X_test)]
         else:
-            # model ở root nhưng cần k != 34 => thử các khả năng phổ biến
             if 1 <= k <= X_test.shape[1]:
                 candidates.append((f"PCA_{k}", get_pca(k)[1]))
                 candidates.append((f"AE_{k}", get_ae(k)[1]))
@@ -129,7 +122,6 @@ def evaluate_model(model_path: Path):
     if best is None:
         raise ValueError(f"Không predict được với candidates={tried}")
 
-    # Plot Confusion Matrix for the best case
     try:
         y_pred_best = best["y_pred"]
         cm = confusion_matrix(y_true, y_pred_best)
@@ -143,11 +135,9 @@ def evaluate_model(model_path: Path):
         save_path = Path("plots/confusion_matrix") / save_name
         plt.savefig(save_path)
         plt.close(fig)
-        # print(f"Saved CM: {save_path}")
     except Exception as e:
         print(f"Failed to plot CM for {model_path}: {e}")
 
-    # Remove y_pred from result to keep DataFrame clean
     res = {
         "model_file": str(model_path),
         "n_in": k,
@@ -157,7 +147,6 @@ def evaluate_model(model_path: Path):
     }
     return res
 
-# ---------- run all ----------
 model_paths = sorted(Path("./model").rglob("*.pkl"))
 rows, errs = [], []
 

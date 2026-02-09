@@ -12,23 +12,18 @@ except ImportError:
 from sklearn.model_selection import train_test_split
 from nano_ensemble import run_experiment
 
-# Suppress warnings
 warnings.filterwarnings('ignore')
 
 def train_group(group_name, specific_labels):
     print(f"\n{'='*20} Training {group_name} {'='*20}")
     print(f"Labels: {specific_labels}")
     
-    # 1. Load Data for specific group
     print(f"[{group_name}] Loading Data...")
-    # Using 40 features as per default in nano_ensemble.main
     X, y = utils.make_data(num_features=40, specific_labels=specific_labels)
     X = utils.Norm(X)
     
     print(f"[{group_name}] Data Shape: {X.shape}, Labels Shape: {y.shape}")
     
-    # Check Stratified Split
-    # y is (N, 1), ravel it
     y = y.ravel()
     
     if len(np.unique(y)) < 2:
@@ -43,15 +38,10 @@ def train_group(group_name, specific_labels):
     
     group_results = []
     
-    # --- Experiment 1: Original ---
-    # We pass group_name as prefix to feature_set_name to identify results later
     run_experiment(X_train_orig, y_train, X_test_orig, y_test, f"{group_name}_Original", group_results, specific_labels=specific_labels)
     
-    # --- Experiment 2: PCA ---
     print(f"\n[{group_name}] Extracting PCA Features...")
     X_mean = np.mean(X_train_orig, axis=0)
-    # Get projection matrix U using Training data
-    # Standard n_components=15 from nano_ensemble
     try:
         U = extract_feature_PCA.U_for_pca(X_train_orig, X_mean, n_components=15)
         X_train_pca = extract_feature_PCA.pca(X_train_orig, X_mean, U)
@@ -61,11 +51,9 @@ def train_group(group_name, specific_labels):
     except Exception as e:
         print(f"[{group_name}] PCA Error: {e}")
     
-    # --- Experiment 3: AutoEncoder ---
     if extract_feature_AE is not None:
         print(f"\n[{group_name}] Extracting AutoEncoder Features...")
         try:
-            # Reduced epochs for speed, match nano_ensemble or slightly less? Using 50 as in nano_ensemble
             ae_model = extract_feature_AE.modelAE(X_train_orig, out_features=15, num_epochs=50)
             X_train_ae = extract_feature_AE.extractAE(ae_model, X_train_orig)
             X_test_ae = extract_feature_AE.extractAE(ae_model, X_test_orig)
@@ -79,7 +67,6 @@ def train_group(group_name, specific_labels):
     return group_results
 
 def main():
-    # Define groups from utils
     groups = [
         ("Group1", utils.GROUP_1),
         ("Group2", utils.GROUP_2),
@@ -92,7 +79,6 @@ def main():
         results = train_group(group_name, labels_list)
         all_groups_results.extend(results)
         
-    # Save consolidated results
     if all_groups_results:
         results_df = pd.DataFrame(all_groups_results)
         results_df.to_csv("evaluation_results_groups.csv", index=False)

@@ -58,15 +58,12 @@ def plot_data(paths, labels, file_names, nrows, ncols, figsize):
     plt.tight_layout()  
     plt.show()
 
-# Indices for 34 features
 FIXED_INDICES_34 = [
     1885, 1856, 1463, 1422, 1888, 1860, 1473, 1356, 1506, 1410, 1266, 921,
     1782, 1513, 1393, 1270, 1438, 1641, 1503, 1872, 1713, 1666, 1576,
     1876, 1849, 1382, 1255, 1878, 1820, 1520, 1395, 1608, 1428, 1596
 ]
 
-# Randomly select 6 additional indices (fixed seed for consistency within a run, or not?)
-# User asked for random. Let's pick them once per run so all classes use same features in one call.
 np.random.seed(42)
 all_indices = np.arange(2048) # Assuming max 2048 based on file check
 available_indices = np.setdiff1d(all_indices, FIXED_INDICES_34)
@@ -94,7 +91,6 @@ def make_data(paths_data = paths, num_features=None, specific_labels=None):
     # print(f"Extracting {len(current_indices)} features...")
 
     for i in range(0, len(paths_data)):
-        # Check if we should skip this label (filter by group)
         current_label_name = labels[i]
         if specific_labels is not None and current_label_name not in specific_labels:
             continue
@@ -115,10 +111,7 @@ def make_data(paths_data = paths, num_features=None, specific_labels=None):
 
             X = np.concatenate((X, [x]), axis=0) 
             
-            # If specific_labels is used, we might want to remap label index to 0..len(group)-1
-            # But kept simple: use index in the specific_labels list if provided, else use global index 'i'
             if specific_labels is not None:
-                # Find index in the specific_labels list
                 label_idx = specific_labels.index(current_label_name)
                 label = np.full((1, 1), label_idx)
             
@@ -136,7 +129,6 @@ def Norm(X, option = 'min_max'):
         
         X_min = X.min(axis=0, keepdims=True)
         X_max = X.max(axis=0, keepdims=True)
-        # X = np.maximum(X, 0)
         X_norm = (X - X_min) / (X_max - X_min)
         return X_norm
     elif option == "z_score":
@@ -274,7 +266,7 @@ def evaluate_model(model, X_test, y_test, labels, plot_name=None):
     
     with np.errstate(divide='ignore', invalid='ignore'):
         cm_percent = (cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]) * 100
-        cm_percent = np.nan_to_num(cm_percent) # Replace NaNs (from divide by zero) with 0
+        cm_percent = np.nan_to_num(cm_percent)
     
     plt.figure(figsize=(10.2, 7))
     sn.heatmap(cm_percent, annot=True, fmt=".1f", cmap="Blues")
@@ -306,7 +298,6 @@ def save_model(file_name, model):
         os.makedirs(directory)
         
     if not path.isfile(file_name):
-        # saving the trained model to disk
         with open(file_name, 'wb') as file:
             pickle.dump(model, file)
         print(f"Saved model '{file_name}' to disk")

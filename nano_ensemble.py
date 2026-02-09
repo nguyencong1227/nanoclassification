@@ -17,8 +17,6 @@ from sklearn.exceptions import FitFailedWarning, DataConversionWarning
 
 import utils
 
-# Suppress warnings
-warnings.filterwarnings('ignore')
 
 def perform_grid_search(X, y, cv=2):
     """
@@ -27,12 +25,11 @@ def perform_grid_search(X, y, cv=2):
     """
     models = {
         'Logistic Regression': LogisticRegression(random_state=42),
-        'SVM': SVC(probability=True, random_state=42), # Important for Soft Voting
+        'SVM': SVC(probability=True, random_state=42),
         'KNN': KNeighborsClassifier(),
         'Random Forest': RandomForestClassifier(random_state=42),
     }
 
-    # Parameters from utils.py (simplified or full)
     parameters = {
         'Logistic Regression': {'C': [0.1, 1.0, 10.0], 'solver': ['liblinear', 'lbfgs']},
         'SVM': {'C': [0.1, 1.0, 10.0], 'kernel': ['linear', 'rbf'], 'gamma': ['scale', 'auto']},
@@ -64,37 +61,25 @@ def perform_grid_search(X, y, cv=2):
 def main():
     # 1. Load Data
     print("Loading and processing data...")
-    # Checking utils.make_data signature: def make_data(paths_data = paths, num_features=None):
-    # It uses global 'paths' and 'file_names' in utils.py. 
-    # We should assume utils is set up correctly or pass arguments if needed.
-    # utils.paths and utils.file_names are defined at module level in utils.py.
     
     X, y = utils.make_data(num_features=34) 
     
-    # Normalize
     X = utils.Norm(X)
     
-    # Split
-    # Split with stratify to ensure all classes are in test set
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
     y_train = y_train.ravel()
     y_test = y_test.ravel()
     print(f"Dataset: Train={X_train.shape}, Test={X_test.shape}")
     
-    # Save Test Set for inspection
     test_df = pd.DataFrame(X_test)
     test_df['label_index'] = y_test
-    # Map label index to name if possible, utils.labels is global in utils but we need access
-    # We can use utils.labels
     test_df['label_name'] = [utils.labels[int(i)] for i in y_test]
     test_df.to_csv("test_dataset.csv", index=False)
     print("Saved test dataset to test_dataset.csv")
 
-    # 2. Grid Search
     print("\n--- Hyperparameter Tuning ---")
     best_models = perform_grid_search(X_train, y_train)
 
-    # --- 3. Evaluate Individual Models ---
     print("\n--- Evaluating Individual Models ---")
     models_to_eval = []
     
@@ -103,10 +88,8 @@ def main():
         utils.model_predict(X_test, y_test, model)
         models_to_eval.append((name, model))
 
-    # --- 4. Ensemble (Voting) ---
     print("\n--- Building Ensembles ---")
     
-    # Retrieve best models
     clf_log = best_models.get('Logistic Regression')
     clf_svm = best_models.get('SVM')
     clf_knn = best_models.get('KNN')
@@ -116,8 +99,6 @@ def main():
         print("Error: Could not find all base models from Grid Search.")
         return
 
-    # Separate estimators for Boosting (No KNN) and Full Voting (With KNN)
-    # KNN does not support sample_weight, which AdaBoost requires.
     
     voting_estimators_full = [
         ('logistic', clf_log),
@@ -132,7 +113,6 @@ def main():
         ('random', clf_rf)
     ]
     
-    # --- 5. Standalone Voting Classifier (Full) ---
     print("\n[VotingClassifier (Full) Results]")
     ensemble_clf_full = VotingClassifier(
         estimators=voting_estimators_full,
@@ -142,14 +122,11 @@ def main():
     utils.model_predict(X_test, y_test, ensemble_clf_full)
     models_to_eval.append(("VotingClassifier_Full", ensemble_clf_full))
 
-    # --- 6. Boosting with Voting Base (No KNN) ---
     print("\n[AdaBoostClassifier (Base=Voting without KNN) Results]")
     ensemble_clf_boost = VotingClassifier(
         estimators=voting_estimators_boost,
         voting='soft'
     )
-    # We don't necessarily need to pre-fit the base estimator for AdaBoost, 
-    # but let's define it correctly.
 
     boosting_clf = AdaBoostClassifier(
         estimator=ensemble_clf_boost,
@@ -165,12 +142,6 @@ def main():
     utils.model_predict(X_test, y_test, boosting_clf)
     models_to_eval.append(("AdaBoostClassifier", boosting_clf))
     
-    # --- 7. Save Results ---
-    
-    # Note: Confusion Matrices are automatically plotted and saved to './plots' 
-    # by utils.model_predict -> utils.evaluate_model
-    
-    # Calculate and Save Metrics to CSV
     from sklearn.metrics import precision_recall_fscore_support, accuracy_score
     
     results_data = []
