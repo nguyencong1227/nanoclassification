@@ -1,0 +1,73 @@
+FeatureSet,Model,Accuracy,Precision,Recall,F1-Score
+PPs_OPs_Original,Logistic Regression,1.0,1.0,1.0,1.0
+PPs_OPs_Original,SVM,1.0,1.0,1.0,1.0
+PPs_OPs_Original,KNN,1.0,1.0,1.0,1.0
+PPs_OPs_Original,Random Forest,0.8,0.7,0.8,0.7333333333333333
+PPs_OPs_Original,Decision Tree,0.8,0.7,0.8,0.7333333333333333
+PPs_OPs_Original,Naive Bayes,0.2,0.04,0.2,0.06666666666666667
+PPs_OPs_Original,VotingClassifier_Full,1.0,1.0,1.0,1.0
+PPs_OPs_Original,AdaBoostClassifier,0.8,0.7,0.8,0.7333333333333333
+PPs_OPs_PCA,Logistic Regression,1.0,1.0,1.0,1.0
+PPs_OPs_PCA,SVM,1.0,1.0,1.0,1.0
+PPs_OPs_PCA,KNN,0.8,0.7,0.8,0.7333333333333333
+PPs_OPs_PCA,Random Forest,1.0,1.0,1.0,1.0
+PPs_OPs_PCA,Decision Tree,0.8,0.7,0.8,0.7333333333333333
+PPs_OPs_PCA,Naive Bayes,1.0,1.0,1.0,1.0
+PPs_OPs_PCA,VotingClassifier_Full,1.0,1.0,1.0,1.0
+PPs_OPs_PCA,AdaBoostClassifier,0.8,0.7,0.8,0.7333333333333333
+PPs_OPs_AutoEncoder,Logistic Regression,0.6,0.5,0.6,0.5333333333333333
+PPs_OPs_AutoEncoder,SVM,0.6,0.5,0.6,0.5333333333333333
+PPs_OPs_AutoEncoder,KNN,0.8,0.7,0.8,0.7333333333333333
+PPs_OPs_AutoEncoder,Random Forest,0.4,0.26666666666666666,0.4,0.3
+PPs_OPs_AutoEncoder,Decision Tree,0.6,0.4666666666666666,0.6,0.5
+PPs_OPs_AutoEncoder,Naive Bayes,0.6,0.4,0.6,0.4666666666666666
+PPs_OPs_AutoEncoder,VotingClassifier_Full,1.0,1.0,1.0,1.0
+PPs_OPs_AutoEncoder,AdaBoostClassifier,0.6,0.4666666666666666,0.6,0.5
+BTEX_Original,Logistic Regression,1.0,1.0,1.0,1.0
+BTEX_Original,SVM,0.8,0.7,0.8,0.7333333333333333
+BTEX_Original,KNN,1.0,1.0,1.0,1.0
+BTEX_Original,Random Forest,1.0,1.0,1.0,1.0
+BTEX_Original,Decision Tree,1.0,1.0,1.0,1.0
+BTEX_Original,Naive Bayes,0.2,0.04,0.2,0.06666666666666667
+BTEX_Original,VotingClassifier_Full,1.0,1.0,1.0,1.0
+BTEX_Original,AdaBoostClassifier,0.6,0.5,0.6,0.5333333333333333
+BTEX_PCA,Logistic Regression,1.0,1.0,1.0,1.0
+BTEX_PCA,SVM,0.8,0.7,0.8,0.7333333333333333
+BTEX_PCA,KNN,1.0,1.0,1.0,1.0
+BTEX_PCA,Random Forest,1.0,1.0,1.0,1.0
+BTEX_PCA,Decision Tree,0.8,0.7,0.8,0.7333333333333333
+BTEX_PCA,Naive Bayes,0.6,0.4666666666666666,0.6,0.5
+BTEX_PCA,VotingClassifier_Full,1.0,1.0,1.0,1.0
+BTEX_PCA,AdaBoostClassifier,0.4,0.3,0.4,0.3333333333333333
+BTEX_AutoEncoder,Logistic Regression,0.6,0.5,0.6,0.5333333333333333
+BTEX_AutoEncoder,SVM,0.6,0.4666666666666666,0.6,0.5
+BTEX_AutoEncoder,KNN,0.8,0.7,0.8,0.7333333333333333
+BTEX_AutoEncoder,Random Forest,0.8,0.7,0.8,0.7333333333333333
+BTEX_AutoEncoder,Decision Tree,0.8,0.7,0.8,0.7333333333333333
+BTEX_AutoEncoder,Naive Bayes,0.6,0.4666666666666666,0.6,0.5
+BTEX_AutoEncoder,VotingClassifier_Full,0.8,0.7,0.8,0.7333333333333333
+BTEX_AutoEncoder,AdaBoostClassifier,0.8,0.7,0.8,0.7333333333333333
+ODs_ICs_Original,Logistic Regression,1.0,1.0,1.0,1.0
+ODs_ICs_Original,SVM,0.8,0.7,0.8,0.7333333333333333
+ODs_ICs_Original,KNN,1.0,1.0,1.0,1.0
+ODs_ICs_Original,Random Forest,1.0,1.0,1.0,1.0
+ODs_ICs_Original,Decision Tree,0.8,0.7,0.8,0.7333333333333333
+ODs_ICs_Original,Naive Bayes,0.2,0.04,0.2,0.06666666666666667
+ODs_ICs_Original,VotingClassifier_Full,1.0,1.0,1.0,1.0
+ODs_ICs_Original,AdaBoostClassifier,1.0,1.0,1.0,1.0
+ODs_ICs_PCA,Logistic Regression,1.0,1.0,1.0,1.0
+ODs_ICs_PCA,SVM,0.8,0.7,0.8,0.7333333333333333
+ODs_ICs_PCA,KNN,1.0,1.0,1.0,1.0
+ODs_ICs_PCA,Random Forest,1.0,1.0,1.0,1.0
+ODs_ICs_PCA,Decision Tree,1.0,1.0,1.0,1.0
+ODs_ICs_PCA,Naive Bayes,1.0,1.0,1.0,1.0
+ODs_ICs_PCA,VotingClassifier_Full,1.0,1.0,1.0,1.0
+ODs_ICs_PCA,AdaBoostClassifier,1.0,1.0,1.0,1.0
+ODs_ICs_AutoEncoder,Logistic Regression,1.0,1.0,1.0,1.0
+ODs_ICs_AutoEncoder,SVM,0.8,0.7,0.8,0.7333333333333333
+ODs_ICs_AutoEncoder,KNN,1.0,1.0,1.0,1.0
+ODs_ICs_AutoEncoder,Random Forest,0.8,0.7,0.8,0.7333333333333333
+ODs_ICs_AutoEncoder,Decision Tree,1.0,1.0,1.0,1.0
+ODs_ICs_AutoEncoder,Naive Bayes,0.8,0.7,0.8,0.7333333333333333
+ODs_ICs_AutoEncoder,VotingClassifier_Full,1.0,1.0,1.0,1.0
+ODs_ICs_AutoEncoder,AdaBoostClassifier,0.8,0.7,0.8,0.7333333333333333
