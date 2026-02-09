@@ -80,15 +80,22 @@ Kết quả đánh giá chi tiết được lưu trong file `evaluation_results_
 
 ## 7. Các Mô Hình Đạt Độ Chính Xác Tuyệt Đối (100%)
 
-Dưới đây là danh sách các mô hình đã phân loại chính xác hoàn toàn (Accuracy = 1.0) trên tập kiểm tra:
+Dưới đây là danh sách các mô hình đã phân loại chính xác hoàn toàn trên tập kiểm tra. Tất cả các chỉ số (Accuracy, Precision, Recall, F1-Score) đều đạt **1.0**.
 
-| Nhóm | Feature Set | Các Model Đạt 100% |
-| :--- | :--- | :--- |
-| **PPs/OPs** | Original | Logistic Regression, SVM, KNN, VotingClassifier_Full |
-| | PCA | Logistic Regression, SVM, Random Forest, Naive Bayes, VotingClassifier_Full |
-| | AutoEncoder | VotingClassifier_Full |
-| **BTEX** | Original | Logistic Regression, KNN, Random Forest, Decision Tree, VotingClassifier_Full |
-| | PCA | Logistic Regression, KNN, Random Forest, VotingClassifier_Full |
-| **ODs/ICs** | Original | Logistic Regression, KNN, Random Forest, VotingClassifier_Full, AdaBoostClassifier |
-| | PCA | Logistic Regression, KNN, Random Forest, Decision Tree, Naive Bayes, VotingClassifier_Full, AdaBoostClassifier |
-| | AutoEncoder | Logistic Regression, KNN, Decision Tree, VotingClassifier_Full |
+| Nhóm | Feature Set | Model | Accuracy | Precision | Recall | F1-Score |
+| :--- | :--- | :--- | :---: | :---: | :---: | :---: |
+| **PPs/OPs** | Original | Logistic Regression, SVM, KNN, VotingClassifier_Full | 1.0 | 1.0 | 1.0 | 1.0 |
+| | PCA | Logistic Regression, SVM, Random Forest, Naive Bayes, VotingClassifier_Full | 1.0 | 1.0 | 1.0 | 1.0 |
+| | AutoEncoder | VotingClassifier_Full | 1.0 | 1.0 | 1.0 | 1.0 |
+| **BTEX** | Original | Logistic Regression, KNN, Random Forest, Decision Tree, VotingClassifier_Full | 1.0 | 1.0 | 1.0 | 1.0 |
+| | PCA | Logistic Regression, KNN, Random Forest, VotingClassifier_Full | 1.0 | 1.0 | 1.0 | 1.0 |
+| **ODs/ICs** | Original | Logistic Regression, KNN, Random Forest, VotingClassifier_Full, AdaBoostClassifier | 1.0 | 1.0 | 1.0 | 1.0 |
+| | PCA | Logistic Regression, KNN, Random Forest, Decision Tree, Naive Bayes, VotingClassifier_Full, AdaBoostClassifier | 1.0 | 1.0 | 1.0 | 1.0 |
+| | AutoEncoder | Logistic Regression, KNN, Decision Tree, VotingClassifier_Full | 1.0 | 1.0 | 1.0 | 1.0 |
+
+## 8. Đường Dẫn Kết Quả Chi Tiết
+
+Bạn có thể xem chi tiết kết quả và các biểu đồ confusion matrix tại các đường dẫn sau:
+
+- **File kết quả (CSV)**: [evaluation_results_groups.csv](https://github.com/nguyencong1227/nanoclassification/blob/main/evaluation_results_groups.csv)
+- **Thư mục biểu đồ (Confusion Matrix)**: [plots/](https://github.com/nguyencong1227/nanoclassification/tree/main/plots)
