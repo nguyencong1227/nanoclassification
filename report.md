@@ -102,7 +102,27 @@ Dưới đây là danh sách các mô hình đã phân loại chính xác hoàn 
 | | PCA | Logistic Regression, KNN, Random Forest, Decision Tree, Naive Bayes, VotingClassifier_Full, AdaBoostClassifier |
 | | AutoEncoder | Logistic Regression, KNN, Decision Tree, VotingClassifier_Full |
 
-## 9. Đường Dẫn Kết Quả Chi Tiết
+## 9. Thảo luận và Đánh giá sự ổn định của Mô hình (Model Stability Analysis)
+
+Để kiểm chứng độ tin cậy của các kết quả tuyệt đối (100%) thu được từ phương pháp chia Train/Test ban đầu, chúng tôi đã thực hiện thêm **K-Fold Cross Validation** (kiểm định chéo với k=3, 4, 5). Dưới đây là những quan sát quan trọng:
+
+### a. Sự ổn định vượt trội của nhóm BTEX
+- **Kết quả**: Nhóm BTEX thể hiện sự ổn định cao nhất. Dù sử dụng phương pháp chia mẫu nào (đơn lẻ hay K-Fold), các mô hình (đặc biệt là Voting Classifier và Logistic Regression) đều đạt độ chính xác **xấp xỉ 96% - 100%**.
+- **Kết luận**: Các đặc trưng quang phổ của nhóm BTEX rất rõ ràng và tách biệt tốt, giúp mô hình học được các quy luật tổng quát mà không phụ thuộc vào cách chia dữ liệu.
+
+### b. Sự biến động ở nhóm PPs/OPs và ODs_ICs
+- **Kết quả**: Có sự chênh lệch đáng kể giữa kết quả kiểm thử ban đầu và kết quả Cross Validation.
+    - **Ban đầu**: Đạt **100%** độ chính xác.
+    - **Cross Validation**: Độ chính xác trung bình giảm xuống khoảng **71% - 84%**. Cá biệt, mô hình Decision Tree và KNN cho thấy sự bất ổn định cao (có trường hợp chỉ đạt ~50%).
+- **Nguyên nhân**:
+    - **Dữ liệu nhỏ (Small Dataset)**: Với số lượng mẫu hạn chế (25 mẫu/nhóm), việc chia Train/Test cố định ban đầu có thể đã tạo ra một tập Test thuận lợi. Khi xáo trộn và chia lại nhiều lần trong K-Fold, mô hình bộc lộ hạn chế trong việc tổng quát hóa.
+    - **Độ nhạy của mô hình**: Các mô hình như Decision Tree và KNN nhạy cảm với dữ liệu nhiễu và thay đổi trong tập huấn luyện hơn so với Logistic Regression hay Voting Classifier.
+
+### c. Đề xuất
+- **Mô hình**: **Logistic Regression** và **Voting Classifier** vẫn là những lựa chọn ưu việt nhất nhờ khả năng duy trì hiệu suất ổn định hơn các mô hình khác.
+- **Dữ liệu**: Để nâng cao độ tin cậy và hiệu suất thực tế cho nhóm PPs/OPs và ODs_ICs, việc **thu thập thêm dữ liệu** là rất cần thiết để giảm thiểu hiện tượng Overfitting và tăng khả năng tổng quát hóa của mô hình.
+
+## 10. Đường Dẫn Kết Quả Chi Tiết
 
 Bạn có thể xem chi tiết kết quả và các biểu đồ confusion matrix tại các đường dẫn sau:
 
