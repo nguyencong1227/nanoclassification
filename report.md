@@ -130,7 +130,35 @@ Dựa trên kết quả ở Bảng 9, dưới đây là những đánh giá chi 
 ### c. Kết luận và Đề xuất
 Kết quả K-Fold cung cấp một cái nhìn khách quan hơn. Mặc dù không đạt 100% như kiểm thử ban đầu, nhưng con số ~84-88% (với Logistic Regression) vẫn là một kết quả khả quan cho việc phân loại các chất hóa học dựa trên quang phổ Raman. Để cải thiện độ ổn định, việc mở rộng tập dữ liệu là ưu tiên hàng đầu.
 
-## 11. Đường Dẫn Kết Quả Chi Tiết
+## 11. Biểu đồ Huấn luyện và Đánh giá (Training & Validation Plots)
+
+Để minh họa quá trình huấn luyện và đánh giá sự phù hợp của mô hình (fitting), chúng tôi đã trích xuất các biểu đồ sau từ quá trình huấn luyện ban đầu:
+
+### a. AutoEncoder Training Loss
+Biểu đồ này hiển thị sự giảm dần của hàm mất mát (MSE Loss) qua 50 epochs, cho thấy mô hình AutoEncoder đã hội tụ tốt.
+
+![AutoEncoder Loss PPs/OPs](plots/ae_loss_PPs_OPs.png)
+*Hình 1: Loss của AutoEncoder cho nhóm PPs/OPs*
+
+![AutoEncoder Loss BTEX](plots/ae_loss_BTEX.png)
+*Hình 2: Loss của AutoEncoder cho nhóm BTEX*
+
+![AutoEncoder Loss ODs/ICs](plots/ae_loss_ODs_ICs.png)
+*Hình 3: Loss của AutoEncoder cho nhóm ODs/ICs*
+
+### b. Learning Curves (Đường cong học tập)
+Biểu đồ Learning Curve thể hiện độ chính xác trên tập Train và tập Cross-Validation khi kích thước dữ liệu huấn luyện tăng dần. Khoảng cách giữa hai đường cho biết mức độ Overfitting/Underfitting. Dưới đây là ví dụ với Logistic Regression (mô hình ổn định nhất).
+
+![Learning Curve PPs/OPs](plots/learning_curve_Learning_Curve_(Logistic_Regression)_-_PPs_OPs.png)
+*Hình 4: Learning Curve (Logistic Regression) - PPs/OPs*
+
+![Learning Curve BTEX](plots/learning_curve_Learning_Curve_(Logistic_Regression)_-_BTEX.png)
+*Hình 5: Learning Curve (Logistic Regression) - BTEX*
+
+![Learning Curve ODs/ICs](plots/learning_curve_Learning_Curve_(Logistic_Regression)_-_ODs_ICs.png)
+*Hình 6: Learning Curve (Logistic Regression) - ODs/ICs*
+
+## 12. Đường Dẫn Kết Quả Chi Tiết
 
 Bạn có thể xem chi tiết kết quả và các biểu đồ confusion matrix tại các đường dẫn sau:
 
