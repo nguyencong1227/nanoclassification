@@ -147,16 +147,58 @@ Biểu đồ này hiển thị sự giảm dần của hàm mất mát (MSE Loss
 *Hình 3: Loss của AutoEncoder cho nhóm ODs/ICs*
 
 ### b. Learning Curves (Đường cong học tập)
-Biểu đồ Learning Curve thể hiện độ chính xác trên tập Train và tập Cross-Validation khi kích thước dữ liệu huấn luyện tăng dần. Khoảng cách giữa hai đường cho biết mức độ Overfitting/Underfitting. Dưới đây là ví dụ với Logistic Regression (mô hình ổn định nhất).
+Biểu đồ Learning Curve thể hiện độ chính xác trên tập Train và tập Cross-Validation khi kích thước dữ liệu huấn luyện tăng dần. Dưới đây là các biểu đồ cho **tất cả các mô hình** để tiện so sánh sự ổn định.
 
-![Learning Curve PPs/OPs](plots/learning_curve_Learning_Curve_(Logistic_Regression)_-_PPs_OPs.png)
-*Hình 4: Learning Curve (Logistic Regression) - PPs/OPs*
+#### Group 1: PPs/OPs
+````carousel
+![Logistic Regression PPs_OPs](plots/learning_curve_Learning_Curve_Logistic_Regression_-_PPs_OPs.png)
+<!-- slide -->
+![SVM PPs_OPs](plots/learning_curve_Learning_Curve_SVM_-_PPs_OPs.png)
+<!-- slide -->
+![KNN PPs_OPs](plots/learning_curve_Learning_Curve_KNN_-_PPs_OPs.png)
+<!-- slide -->
+![Decision Tree PPs_OPs](plots/learning_curve_Learning_Curve_Decision_Tree_-_PPs_OPs.png)
+<!-- slide -->
+![Random Forest PPs_OPs](plots/learning_curve_Learning_Curve_Random_Forest_-_PPs_OPs.png)
+<!-- slide -->
+![Naive Bayes PPs_OPs](plots/learning_curve_Learning_Curve_Naive_Bayes_-_PPs_OPs.png)
+<!-- slide -->
+![Voting Classifier PPs_OPs](plots/learning_curve_Learning_Curve_VotingClassifier_-_PPs_OPs.png)
+````
 
-![Learning Curve BTEX](plots/learning_curve_Learning_Curve_(Logistic_Regression)_-_BTEX.png)
-*Hình 5: Learning Curve (Logistic Regression) - BTEX*
+#### Group 2: BTEX
+````carousel
+![Logistic Regression BTEX](plots/learning_curve_Learning_Curve_Logistic_Regression_-_BTEX.png)
+<!-- slide -->
+![SVM BTEX](plots/learning_curve_Learning_Curve_SVM_-_BTEX.png)
+<!-- slide -->
+![KNN BTEX](plots/learning_curve_Learning_Curve_KNN_-_BTEX.png)
+<!-- slide -->
+![Decision Tree BTEX](plots/learning_curve_Learning_Curve_Decision_Tree_-_BTEX.png)
+<!-- slide -->
+![Random Forest BTEX](plots/learning_curve_Learning_Curve_Random_Forest_-_BTEX.png)
+<!-- slide -->
+![Naive Bayes BTEX](plots/learning_curve_Learning_Curve_Naive_Bayes_-_BTEX.png)
+<!-- slide -->
+![Voting Classifier BTEX](plots/learning_curve_Learning_Curve_VotingClassifier_-_BTEX.png)
+````
 
-![Learning Curve ODs/ICs](plots/learning_curve_Learning_Curve_(Logistic_Regression)_-_ODs_ICs.png)
-*Hình 6: Learning Curve (Logistic Regression) - ODs/ICs*
+#### Group 3: ODs/ICs
+````carousel
+![Logistic Regression ODs/ICs](plots/learning_curve_Learning_Curve_Logistic_Regression_-_ODs_ICs.png)
+<!-- slide -->
+![SVM ODs/ICs](plots/learning_curve_Learning_Curve_SVM_-_ODs_ICs.png)
+<!-- slide -->
+![KNN ODs/ICs](plots/learning_curve_Learning_Curve_KNN_-_ODs_ICs.png)
+<!-- slide -->
+![Decision Tree ODs/ICs](plots/learning_curve_Learning_Curve_Decision_Tree_-_ODs_ICs.png)
+<!-- slide -->
+![Random Forest ODs/ICs](plots/learning_curve_Learning_Curve_Random_Forest_-_ODs_ICs.png)
+<!-- slide -->
+![Naive Bayes ODs/ICs](plots/learning_curve_Learning_Curve_Naive_Bayes_-_ODs_ICs.png)
+<!-- slide -->
+![Voting Classifier ODs/ICs](plots/learning_curve_Learning_Curve_VotingClassifier_-_ODs_ICs.png)
+````
 
 ## 12. Đường Dẫn Kết Quả Chi Tiết
 
