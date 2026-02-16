@@ -102,27 +102,35 @@ Dưới đây là danh sách các mô hình đã phân loại chính xác hoàn 
 | | PCA | Logistic Regression, KNN, Random Forest, Decision Tree, Naive Bayes, VotingClassifier_Full, AdaBoostClassifier |
 | | AutoEncoder | Logistic Regression, KNN, Decision Tree, VotingClassifier_Full |
 
-## 9. Thảo luận và Đánh giá sự ổn định của Mô hình (Model Stability Analysis)
+## 9. Kết quả K-Fold Cross Validation (k=3)
 
-Để kiểm chứng độ tin cậy của các kết quả tuyệt đối (100%) thu được từ phương pháp chia Train/Test ban đầu, chúng tôi đã thực hiện thêm **K-Fold Cross Validation** (kiểm định chéo với k=3, 4, 5). Dưới đây là những quan sát quan trọng:
+Để kiểm chứng độ tin cậy của mô hình, chúng tôi đã thực hiện phương pháp kiểm định chéo 3-Fold (3-Fold Cross Validation). Dưới đây là kết quả chi tiết của hai mô hình tốt nhất: **Logistic Regression** và **Voting Classifier Full**.
 
-### a. Sự ổn định vượt trội của nhóm BTEX
-- **Kết quả**: Nhóm BTEX thể hiện sự ổn định cao nhất. Dù sử dụng phương pháp chia mẫu nào (đơn lẻ hay K-Fold), các mô hình (đặc biệt là Voting Classifier và Logistic Regression) đều đạt độ chính xác **xấp xỉ 96% - 100%**.
-- **Kết luận**: Các đặc trưng quang phổ của nhóm BTEX rất rõ ràng và tách biệt tốt, giúp mô hình học được các quy luật tổng quát mà không phụ thuộc vào cách chia dữ liệu.
+| Nhóm | Model | Accuracy | Precision | Recall | F1-Score |
+| :--- | :--- | :---: | :---: | :---: | :---: |
+| **PPs/OPs** | Logistic Regression | 0.84 | 0.82 | 0.84 | 0.80 |
+| | VotingClassifier_Full | 0.80 | 0.79 | 0.80 | 0.77 |
+| **BTEX** | Logistic Regression | 0.88 | 0.93 | 0.88 | 0.88 |
+| | VotingClassifier_Full | 0.69 | 0.65 | 0.69 | 0.66 |
+| **ODs/ICs** | Logistic Regression | 0.83 | 0.84 | 0.83 | 0.81 |
+| | VotingClassifier_Full | 0.76 | 0.91 | 0.76 | 0.78 |
 
-### b. Sự biến động ở nhóm PPs/OPs và ODs_ICs
-- **Kết quả**: Có sự chênh lệch đáng kể giữa kết quả kiểm thử ban đầu và kết quả Cross Validation.
-    - **Ban đầu**: Đạt **100%** độ chính xác.
-    - **Cross Validation**: Độ chính xác trung bình giảm xuống khoảng **71% - 84%**. Cá biệt, mô hình Decision Tree và KNN cho thấy sự bất ổn định cao (có trường hợp chỉ đạt ~50%).
-- **Nguyên nhân**:
-    - **Dữ liệu nhỏ (Small Dataset)**: Với số lượng mẫu hạn chế (25 mẫu/nhóm), việc chia Train/Test cố định ban đầu có thể đã tạo ra một tập Test thuận lợi. Khi xáo trộn và chia lại nhiều lần trong K-Fold, mô hình bộc lộ hạn chế trong việc tổng quát hóa.
-    - **Độ nhạy của mô hình**: Các mô hình như Decision Tree và KNN nhạy cảm với dữ liệu nhiễu và thay đổi trong tập huấn luyện hơn so với Logistic Regression hay Voting Classifier.
+## 10. Thảo luận và Đánh giá sự ổn định của Mô hình (Model Stability Analysis)
 
-### c. Đề xuất
-- **Mô hình**: **Logistic Regression** và **Voting Classifier** vẫn là những lựa chọn ưu việt nhất nhờ khả năng duy trì hiệu suất ổn định hơn các mô hình khác.
-- **Dữ liệu**: Để nâng cao độ tin cậy và hiệu suất thực tế cho nhóm PPs/OPs và ODs_ICs, việc **thu thập thêm dữ liệu** là rất cần thiết để giảm thiểu hiện tượng Overfitting và tăng khả năng tổng quát hóa của mô hình.
+Dựa trên kết quả ở Bảng 9, dưới đây là những đánh giá chi tiết:
 
-## 10. Đường Dẫn Kết Quả Chi Tiết
+### a. Sự ổn định của các nhóm
+- **Nhóm BTEX**: Thể hiện sự ổn định khá tốt với Logistic Regression (Accuracy ~88%, F1 ~88%). Tuy nhiên, Voting Classifier lại cho kết quả thấp bất thường (~69%), cho thấy sự nhạy cảm của các mô hình thành phần (như KNN, SVM) khi dữ liệu bị chia nhỏ trong quá trình Cross Validation.
+- **Nhóm PPs/OPs và ODs_ICs**: Cả hai nhóm đều duy trì độ chính xác ở mức khá tốt (~80-84%) với Logistic Regression. Điều này thấp hơn so với kết quả đạt 100% khi kiểm thử đơn lẻ (Original Train/Test Split), phản ánh thực tế rằng dữ liệu có sự biến động và kết quả 100% trước đó có thể do may mắn trong cách chia dữ liệu.
+
+### b. Đánh giá về Mô hình
+- **Logistic Regression**: Là mô hình **ổn định nhất** trong thử nghiệm K-Fold này. Nó đạt độ chính xác cao nhất ở cả 3 nhóm, chứng tỏ mô hình tuyến tính đơn giản này ít bị Overfitting hơn so với các mô hình phức tạp (như Ensemble Voting) khi làm việc với tập dữ liệu nhỏ.
+- **Voting Classifier**: Mặc dù hoạt động rất tốt trên tập kiểm thử tĩnh (đạt 100%), nhưng khi chạy K-Fold, hiệu suất giảm đáng kể. Điều này gợi ý rằng mô hình này cần nhiều dữ liệu hơn để đạt được sự ổn định.
+
+### c. Kết luận và Đề xuất
+Kết quả K-Fold cung cấp một cái nhìn khách quan hơn. Mặc dù không đạt 100% như kiểm thử ban đầu, nhưng con số ~84-88% (với Logistic Regression) vẫn là một kết quả khả quan cho việc phân loại các chất hóa học dựa trên quang phổ Raman. Để cải thiện độ ổn định, việc mở rộng tập dữ liệu là ưu tiên hàng đầu.
+
+## 11. Đường Dẫn Kết Quả Chi Tiết
 
 Bạn có thể xem chi tiết kết quả và các biểu đồ confusion matrix tại các đường dẫn sau:
 
